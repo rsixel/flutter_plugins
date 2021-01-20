@@ -25,8 +25,7 @@ class _LoginViewState extends State<LoginView> {
   Map<ProvidersTypes, ButtonDescription> _buttons;
 
   _handleEmailSignIn() async {
-    String value = await Navigator
-        .of(context)
+    String value = await Navigator.of(context)
         .push(new MaterialPageRoute<String>(builder: (BuildContext context) {
       return new EmailView();
     }));
@@ -44,7 +43,7 @@ class _LoginViewState extends State<LoginView> {
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       if (googleAuth.accessToken != null) {
         try {
-          FirebaseUser user = await _auth.signInWithGoogle(
+          User user = await _auth.signInWithGoogle(
             accessToken: googleAuth.accessToken,
             idToken: googleAuth.idToken,
           );
@@ -63,7 +62,7 @@ class _LoginViewState extends State<LoginView> {
         await facebookLogin.logInWithReadPermissions(['email']);
     if (result.accessToken != null) {
       try {
-        FirebaseUser user = await _auth.signInWithFacebook(
+        User user = await _auth.signInWithFacebook(
             accessToken: result.accessToken.token);
         print(user);
       } catch (e) {

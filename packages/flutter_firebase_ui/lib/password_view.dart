@@ -87,8 +87,7 @@ class _PasswordViewState extends State<PasswordView> {
   }
 
   _handleLostPassword() {
-    Navigator
-        .of(context)
+    Navigator.of(context)
         .push(new MaterialPageRoute<Null>(builder: (BuildContext context) {
       return new TroubleSignIn(_controllerEmail.text);
     }));
@@ -96,7 +95,7 @@ class _PasswordViewState extends State<PasswordView> {
 
   _connexion(BuildContext context) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
-    FirebaseUser user;
+    User user;
     try {
       user = await _auth.signInWithEmailAndPassword(
           email: _controllerEmail.text, password: _controllerPassword.text);

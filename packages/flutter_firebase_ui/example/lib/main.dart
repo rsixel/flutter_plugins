@@ -31,9 +31,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  StreamSubscription<FirebaseUser> _listener;
+  StreamSubscription<User> _listener;
 
-  FirebaseUser _currentUser;
+  User _currentUser;
 
   @override
   void initState() {
@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _currentUser = await _auth.currentUser();
     _currentUser?.getIdToken(refresh: true);
 
-    _listener = _auth.onAuthStateChanged.listen((FirebaseUser user) {
+    _listener = _auth.onAuthStateChanged.listen((User user) {
       setState(() {
         _currentUser = user;
       });
@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class HomeScreen extends StatelessWidget {
-  final FirebaseUser user;
+  final User user;
 
   HomeScreen({this.user});
 
