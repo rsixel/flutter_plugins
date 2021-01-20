@@ -16,7 +16,8 @@ dependencies:
   flutter_facebook_login: "^1.1.1"
 
 dev_dependencies:
-  test: ^0.12.0
+  test: ^1.15.7
+
   flutter_test:
     sdk: flutter
 
