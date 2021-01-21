@@ -39,14 +39,20 @@ class _LoginViewState extends State<LoginView> {
     GoogleSignIn _googleSignIn = new GoogleSignIn();
 
     GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+
+    GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
     if (googleUser != null) {
       GoogleSignInAuthentication googleAuth = await googleUser.authentication;
       if (googleAuth.accessToken != null) {
         try {
-          User user = await _auth.signInWithGoogle(
-            accessToken: googleAuth.accessToken,
-            idToken: googleAuth.idToken,
-          );
+          var authResult = await _auth.signInWithCredential(credential);
+
+          User user = await authResult.user;
 
           print(user);
         } catch (e) {
@@ -58,12 +64,17 @@ class _LoginViewState extends State<LoginView> {
 
   _handleFacebookSignin() async {
     var facebookLogin = new FacebookLogin();
-    FacebookLoginResult result =
-        await facebookLogin.logInWithReadPermissions(['email']);
+    FacebookLoginResult result = await facebookLogin.logIn(['email']);
+
+    var facebookAccessToken = result.accessToken;
+    AuthCredential authCredential =
+        FacebookAuthProvider.credential(facebookAccessToken.token);
+
     if (result.accessToken != null) {
       try {
-        User user = await _auth.signInWithFacebook(
-            accessToken: result.accessToken.token);
+        User user =
+            (await FirebaseAuth.instance.signInWithCredential(authCredential))
+                .user;
         print(user);
       } catch (e) {
         showErrorDialog(context, e.details);

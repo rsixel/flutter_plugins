@@ -59,18 +59,16 @@ class _EmailViewState extends State<EmailView> {
     try {
       final FirebaseAuth auth = FirebaseAuth.instance;
       List<String> providers =
-          await auth.fetchProvidersForEmail(email: _controllerEmail.text);
+          await auth.fetchSignInMethodsForEmail(_controllerEmail.text);
       print(providers);
 
       if (providers == null) {
-        Navigator
-            .of(context)
+        Navigator.of(context)
             .push(new MaterialPageRoute<Null>(builder: (BuildContext context) {
           return new SignUpView(_controllerEmail.text);
         }));
       } else if (providers.contains('password')) {
-        bool connected = await Navigator
-            .of(context)
+        bool connected = await Navigator.of(context)
             .push(new MaterialPageRoute<bool>(builder: (BuildContext context) {
           return new PasswordView(_controllerEmail.text);
         }));
@@ -99,8 +97,7 @@ class _EmailViewState extends State<EmailView> {
         content: new SingleChildScrollView(
             child: new ListBody(
           children: <Widget>[
-            new Text(FFULocalizations
-                .of(context)
+            new Text(FFULocalizations.of(context)
                 .allReadyEmailMessage(email, providerName)),
             new SizedBox(
               height: 16.0,

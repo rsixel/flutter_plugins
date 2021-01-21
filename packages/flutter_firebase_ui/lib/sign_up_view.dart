@@ -98,9 +98,8 @@ class _SignUpViewState extends State<SignUpView> {
         password: _controllerPassword.text,
       );
       try {
-        var userUpdateInfo = new UserUpdateInfo();
-        userUpdateInfo.displayName = _controllerDisplayName.text;
-        _auth.updateProfile(userUpdateInfo);
+        await FirebaseAuth.instance.currentUser
+            .updateProfile(displayName: _controllerDisplayName.text);
       } catch (e) {
         showErrorDialog(context, e.details);
       }
